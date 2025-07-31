@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Contact Us - Saigovardhan's Tuition Classes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container mt-5 mb-5">
+  <div class="card shadow border-0">
+    <div class="card-body">
+      <h2 class="card-title text-primary mb-4">Contact Us</h2>
+      <form id="contactForm" method="post">
+        <div class="mb-3">
+          <label for="name" class="form-label">Full Name</label>
+          <input type="text" class="form-control" id="name" name="Name" placeholder="Enter your full name" required />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" class="form-control" id="email" name="Email" placeholder="Enter your email" required />
+        </div>
+        <div class="mb-3">
+          <label for="subject" class="form-label">Subject</label>
+          <input type="text" class="form-control" id="subject" name="Subject" placeholder="Subject of your message" required />
+        </div>
+        <div class="mb-3">
+          <label for="message" class="form-label">Message</label>
+          <textarea class="form-control" id="message" name="Message" rows="4" placeholder="Type your message here..." required></textarea>
+        </div>
+        <button type="button" class="btn btn-success w-100" id="cbutton">Send Message</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#cbutton").on("click", function () {
+                // Validation logic
+                const name = $("#name").val().trim();
+                const email = $("#email").val().trim();
+                const subject = $("#subject").val().trim();
+                const message = $("#message").val().trim();
+
+                const capital = /[A-Z]/;
+
+                if (name.length < 3) {
+                    alert('Full Name must be at least 3 characters.');
+                    return;
+                }
+                else if (!capital.test(name)) {
+                    alert("The name must contain at least one capital letter.");
+                    return;
+                }
+                else if (subject.length < 5) {
+                    alert('Subject must be at least 5 characters.');
+                    return;
+                }
+                else if (message.length < 10) {
+                    alert('Message must be at least 10 characters.');
+                    return;
+                }
+
+                // If validation passed, call AJAX function
+                saveContact();
+            });
+        });
+        
+        // function saveContact() {
+        //     /*
+        //     const ajaxTime = new Date().getTime();
+
+        
+        // const APIURL = "https:localhost:7220/api";
+        
+        //     const jsonData = JSON.stringify({
+        //         Name: $("#name").val()?.trim() || null,
+        //         EmailId: $("#email").val()?.trim() || null,
+        //         Subject: $("#subject").val()?.trim() || null,
+        //         Message: $("#message").val()?.trim() || null
+        //     });
+        //     */
+        //     const settings = {
+        //         async: true,
+        //         crossDomain: true,
+        //         cache: false,
+        //         dataType: "json",
+        //         url: APIURL + "/Contact/AddContact",
+        //         method: "POST",
+        //         contentType: "application/json; charset=utf-8",
+        //         data: jsonData
+        //     };
+            
+        //     $.ajax(settings)
+        //         .done(function (response) {
+        //             const responseTime = new Date().getTime() - ajaxTime;
+        //             alert("Thank you for your message! Our team will contact you soon.");
+        //             $("#contactForm")[0].reset();
+        //         })
+        //         .fail(function (xhr, textStatus, errorThrown) {
+        //             const responseTime = new Date().getTime() - ajaxTime;
+        //             const errorMsg = xhr.responseJSON ? xhr.responseJSON.Message : "Failed to save contact details. Try again.";
+        //             alert("Error: " + errorMsg);
+        //         });
+        // }
+                function saveContact() {
+            // Simulate successful submission (no actual API call)
+            alert("Thank you for your message! Our team will contact you soon.");
+            $("#contactForm")[0].reset();
+        }
+
+        
+    </script>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+

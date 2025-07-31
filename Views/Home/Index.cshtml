@@ -1,0 +1,642 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-...your integrity hash..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    .hero-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 100px 0;
+        margin-bottom: 30px;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #0d6efd;
+    }
+
+    .testimonial-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+    }
+
+    .subject-card {
+        transition: transform 0.3s;
+    }
+
+        .subject-card:hover {
+            transform: translateY(-10px);
+        }
+
+    .floating-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+    }
+
+    /* CHATBOT SPECIFIC STYLES */
+    #chatbot-bubble {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #007bff;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1001;
+        transition: transform 0.2s ease-in-out;
+    }
+
+        #chatbot-bubble:hover {
+            transform: scale(1.05);
+        }
+
+    #chatbot-window {
+        position: fixed;
+        bottom: 100px; /* Adjust based on bubble height + gap */
+        right: 30px;
+        width: 320px; /* Increased width */
+        height: 450px; /* Increased height */
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        z-index: 1000;
+        overflow: hidden;
+    }
+
+    #chatbot-header {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    #chatbot-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    #chatbot-messages {
+        flex-grow: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background-color: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Space between messages */
+    }
+
+    .chat-message {
+        max-width: 80%;
+        padding: 10px 15px;
+        border-radius: 15px;
+        line-height: 1.4;
+        font-size: 0.9rem;
+    }
+
+        .chat-message.user {
+            align-self: flex-end;
+            background-color: #e2e6ea;
+            color: #343a40;
+            border-bottom-right-radius: 5px; /* Tweak for better bubble shape */
+        }
+
+        .chat-message.bot {
+            align-self: flex-start;
+            background-color: #007bff;
+            color: white;
+            border-bottom-left-radius: 5px; /* Tweak for better bubble shape */
+        }
+
+    #chatbot-input-area {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #dee2e6;
+        background-color: #f1f1f1;
+    }
+
+    #chatbot-input {
+        flex-grow: 1;
+        border: 1px solid #ced4da;
+        border-radius: 20px;
+        padding: 8px 15px;
+        margin-right: 10px;
+        outline: none;
+        font-size: 0.9rem;
+    }
+
+    #chatbot-send {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%; /* Make it round */
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .chatbot-icon-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures the image covers the area without distortion */
+        border-radius: 50%; /* Makes the image circular */
+    }
+        #chatbot-send:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-4">Saigovardhan's Tuition Classes</h1>
+        <p class="lead mb-4">Unlock your academic potential with personalized learning</p>
+        <div class="d-flex justify-content-center gap-3">
+            <button class="btn btn-primary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#enrollModal">
+                Enroll Now <i class="fas fa-arrow-right ms-2"></i>
+            </button>
+            <button class="btn btn-outline-light btn-lg px-4" data-bs-toggle="collapse" data-bs-target="#demoClassCollapse">
+                Book Free Demo <i class="fas fa-calendar-check ms-2"></i>
+            </button>
+        </div>
+
+        <div class="collapse mt-4" id="demoClassCollapse">
+            <div class="card card-body bg-dark text-white mx-auto" style="max-width: 500px;">
+                <h5 class="card-title">Book a Free Demo Class</h5>
+                <form>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Your Name">
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" placeholder="Email Address">
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select">
+                            <option selected>Select Class</option>
+                            <option>Class 8</option>
+                            <option>Class 9</option>
+                            <option>Class 10</option>
+                            <option>Class 11-12 (Science)</option>
+                            <option>Class 11-12 (Commerce)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="container mb-5">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Teacher with students" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-md-6">
+            <h2 class="mb-4">About Saigovardhan's Tuition</h2>
+            <p class="lead">With over 10 years of teaching experience, Saigovardhan specializes in making complex concepts simple and engaging.</p>
+            <p>Our tuition center provides a nurturing environment where students can thrive academically while developing critical thinking skills.</p>
+
+            <div class="d-flex align-items-center mt-4" data-bs-toggle="tooltip" data-bs-placement="right" title="Our teaching methodology">
+                <div class="me-3">
+                    <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                </div>
+                <div>
+                    <h5>Interactive Learning</h5>
+                    <p class="mb-0">Engaging sessions with real-world applications</p>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center mt-4" data-bs-toggle="tooltip" data-bs-placement="right" title="We keep batches small">
+                <div class="me-3">
+                    <i class="fas fa-user-friends feature-icon"></i>
+                </div>
+                <div>
+                    <h5>Small Batch Sizes</h5>
+                    <p class="mb-0">Maximum 10 students per batch for individual attention</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="chatbot-bubble">
+    <i class="fas fa-comment-dots"></i>
+    <img src="~/chatbot.jpg" alt="Chatbot Icon" class="chatbot-icon-img">
+</div>
+
+<div id="chatbot-window">
+    <div id="chatbot-header">
+        Saigovardhan Bot
+        <button id="chatbot-close"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="chatbot-messages">
+        <div class="chat-message bot">Hello! I'm Saigovardhan's Tuition Bot. I can answer questions about our courses, timings, and enrollment.</div>
+    </div>
+    <div id="chatbot-input-area">
+        <input type="text" id="chatbot-input" placeholder="Type your message...">
+        <button id="chatbot-send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="enrollModalLabel">Enrollment Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="enrollbro">
+                    <div class="mb-3">
+                        <label class="form-label">Student Name</label>
+                        <input type="text" id="studentname" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Parent/Guardian Name</label>
+                        <input type="text" id="parentname" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contact Number</label>
+                        <input type="tel" id="contact" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Class</label>
+                        <select class="form-select" id="class">
+                            <option selected>Select Class</option>
+                            <option>Class 8</option>
+                            <option>Class 9</option>
+                            <option>Class 10</option>
+                            <option>Class 11 (Science)</option>
+                            <option>Class 12 (Science)</option>
+                            <option>Class 11 (Commerce)</option>
+                            <option>Class 12 (Commerce)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="subjects">
+                        <label class="form-label">Subjects</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="maths">
+                            <label class="form-check-label" for="maths">Mathematics</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="physics">
+                            <label class="form-check-label" for="physics">Physics</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="chemistry">
+                            <label class="form-check-label" for="chemistry">Chemistry</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="biology">
+                            <label class="form-check-label" for="biology">Biology</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="accountancy">
+                            <label class="form-check-label" for="accountancy">Accountancy</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="enrollbutton">Submit Enrollment</button>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5>Saigovardhan's Tuition</h5>
+                <p>Empowering students through quality education since 2023.</p>
+                <div class="social-icons">
+                    <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="col-md-2 mb-4 mb-md-0">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Home</a></li>
+                    <li><a class="text-white" asp-controller="About" asp-action="Index">About</a></li>
+                    <li><a href="#" class="text-white">Courses</a></li>
+                    <li><a href="#" class="text-white">Results</a></li>
+                    <li><a class="text-white" asp-controller="Contact" asp-action="Index">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4 mb-md-0">
+                <h5>Classes</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Class 8-10</a></li>
+                    <li><a href="#" class="text-white">Class 11-12 Science</a></li>
+                    <li><a href="#" class="text-white">Class 11-12 Commerce</a></li>
+                    <li><a href="#" class="text-white">Competitive Exams</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h5>Newsletter</h5>
+                <p>Subscribe to get updates on new batches and educational tips.</p>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Your Email">
+                    <button class="btn btn-primary" type="button">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="mb-0">&copy; 2023 Saigovardhan's Tuition. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#" class="text-white me-3">Privacy Policy</a>
+                <a href="#" class="text-white">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+    <script>
+         
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        });
+
+        // Ensure jQuery is loaded before using $
+        // This is a fallback if the _Layout.cshtml loading order is an issue or jQuery is missing locally.
+        // The most robust solution is to ensure jQuery is loaded via CDN in _Layout.cshtml.
+        if (typeof jQuery !== 'undefined') {
+            $(document).ready(function () {
+                $("#enrollbutton").on("click", function () {
+                    // For a simple demo, you might just close the modal or show an alert.
+                    alert("Enrollment details submitted successfully!");
+                    $('#enrollModal').modal('hide'); // Hide the modal after submission
+                });
+
+                // CHATBOT LOGIC START - Basic NLP Simulation
+                const chatbotBubble = document.getElementById('chatbot-bubble');
+                const chatbotWindow = document.getElementById('chatbot-window');
+                const chatbotCloseBtn = document.getElementById('chatbot-close');
+                const chatbotMessages = document.getElementById('chatbot-messages');
+                const chatbotInput = document.getElementById('chatbot-input');
+                const chatbotSendBtn = document.getElementById('chatbot-send');
+
+                // Define Intents and their patterns/responses
+                const intents = [
+                    {
+                        name: "greet",
+                        patterns: [
+                            /hi|hello|hey/i,
+                            /how are you/i
+                        ],
+                        responses: [
+                            "Hello! How can I assist you with Saigovardhan's Tuition classes today?",
+                            "Hi there! What can I help you with regarding our courses?",
+                            "Greetings! Ask me anything about our tuition programs."
+                        ]
+                    },
+                    {
+                        name: "ask_courses_general",
+                        patterns: [
+                            /course(s)? (offer(ed)?)?|class(es)? (have|provide)?|program(s)? (have|offer)?/i,
+                            /what (do you teach|subjects|classes)/i,
+                            /list of courses/i
+                        ],
+                        responses: [
+                            "We offer comprehensive courses for Middle School (Class 6-8), Secondary (Class 9-10), Senior Secondary (Class 11-12 Science/Commerce), and Competitive Exams (JEE, NEET, CA Foundation). Which level are you interested in?",
+                            "Our programs cover Middle School, Secondary, Senior Secondary (Science & Commerce), and Competitive Exams. What specific area are you looking for?",
+                            "Saigovardhan's Tuition provides classes for students from Class 6 up to Class 12, including specialized competitive exam coaching. Can I tell you more about a specific class group?"
+                        ]
+                    },
+                    {
+                        name: "ask_middle_school",
+                        patterns: [
+                            /middle school|class(es)? (6|7|8)|foundation building/i,
+                            /class (six|seven|eight)/i
+                        ],
+                        responses: [
+                            "For Middle School (Class 6-8), we focus on Mathematics, Science, English, and Social Studies. Our goal is to build a strong foundation with interactive learning and Olympiad preparation.",
+                            "Our Middle School program (Classes 6-8) emphasizes conceptual clarity in Math, Science, English, and Social Studies, along with regular assessments and personalized attention."
+                        ]
+                    },
+                    {
+                        name: "ask_secondary_school",
+                        patterns: [
+                            /secondary|class(es)? (9|10)|board special/i,
+                            /class (nine|ten)/i
+                        ],
+                        responses: [
+                            "Our Secondary program (Class 9-10) offers comprehensive coverage of CBSE/ICSE/State Board syllabus for Math, Science, English, Social Science, Hindi/Telugu, and Computer Science. We focus heavily on board exam excellence.",
+                            "For Classes 9 and 10, we provide focused preparation for board examinations, including chapter-wise tests, doubt clearing, and practical lab support."
+                        ]
+                    },
+                    {
+                        name: "ask_senior_secondary_science",
+                        patterns: [
+                            /senior secondary science|class(es)? (11|12) science|pcm|pcb|physics|chemistry|biology|engineering|medical|jee|neet/i
+                        ],
+                        responses: [
+                            "Our Senior Secondary Science Stream (Class 11-12) covers Physics, Chemistry, Mathematics, and Biology (PCM/PCB programs). We also offer specialized JEE and NEET preparation within this stream.",
+                            "For Class 11-12 Science, we provide comprehensive coaching for board exams and competitive exams like JEE and NEET, with a strong emphasis on conceptual understanding."
+                        ]
+                    },
+                    {
+                        name: "ask_senior_secondary_commerce",
+                        patterns: [
+                            /senior secondary commerce|class(es)? (11|12) commerce|accountancy|business studies|economics|ca foundation/i
+                        ],
+                        responses: [
+                            "Our Senior Secondary Commerce Stream (Class 11-12) focuses on Accountancy, Business Studies, and Economics. We also offer coaching for CA Foundation exams.",
+                            "For Class 11-12 Commerce, we provide specialized coaching to excel in board exams and prepare for professional courses like CA Foundation."
+                        ]
+                    },
+                    {
+                        name: "ask_competitive_exams",
+                        patterns: [
+                            /competitive exam(s)?|jee|neet|ca foundation|clat/i
+                        ],
+                        responses: [
+                            "We offer specialized coaching for competitive exams including JEE (Engineering), NEET (Medical), and CA Foundation. We also have integrated programs that include CLAT preparation.",
+                            "Our competitive exam programs are designed for serious aspirants of JEE, NEET, and CA Foundation, with rigorous test series and doubt clearing sessions."
+                        ]
+                    },
+                    {
+                        name: "ask_enrollment",
+                        patterns: [
+                            /enroll|admission|how to join|register|sign up/i
+                        ],
+                        responses: [
+                            "You can easily enroll by clicking the 'Enroll Now' button on our homepage. It will open an enrollment form for you to fill out.",
+                            "To join our classes, please fill out the enrollment form accessible via the 'Enroll Now' button. We'll get back to you shortly!"
+                        ]
+                    },
+                    {
+                        name: "ask_demo_class",
+                        patterns: [
+                            /demo class|free class|trial class|book a demo/i
+                        ],
+                        responses: [
+                            "Yes, we offer free demo classes! You can book one by clicking the 'Book Free Demo' button on the hero section of the page and filling out the request form.",
+                            "Interested in a demo? Simply click 'Book Free Demo' on our main page to schedule a complimentary session."
+                        ]
+                    },
+                    {
+                        name: "ask_location",
+                        patterns: [
+                            /location|address|where are you|find you/i
+                        ],
+                        responses: [
+                            "Our tuition center is located in Vengadamangalam, Tamil Nadu, India.",
+                            "You can find us in Vengadamangalam, Tamil Nadu."
+                        ]
+                    },
+                    {
+                        name: "ask_contact",
+                        patterns: [
+                            /contact|phone|email|get in touch/i
+                        ],
+                        responses: [
+                            "You can find our full contact details on the 'Contact Us' page in the navigation. Feel free to call us or send an email.",
+                            "For direct contact, please visit our 'Contact Us' page. We're happy to help!"
+                        ]
+                    },
+                    {
+                        name: "ask_timings",
+                        patterns: [
+                            /timings|schedule|when are classes|batch times/i
+                        ],
+                        responses: [
+                            "Our typical batch timings are: Morning: 7-9 AM, Afternoon: 4-6 PM, and Evening: 6-8 PM.",
+                            "Classes are held in three convenient slots: 7-9 AM, 4-6 PM, and 6-8 PM."
+                        ]
+                    },
+                    {
+                        name: "goodbye",
+                        patterns: [
+                            /bye|goodbye|see you|thanks|thank you/i
+                        ],
+                        responses: [
+                            "You're welcome! If you have more questions, feel free to ask. Goodbye!",
+                            "Glad I could help! Have a great day. Feel free to come back if you need anything else.",
+                            "Bye for now! Don't hesitate to reach out if you have further queries."
+                        ]
+                    }
+                ];
+
+                // Function to get a random response from an array
+                function getRandomResponse(responses) {
+                    return responses[Math.floor(Math.random() * responses.length)];
+                }
+
+                function generateBotResponse(userMessage) {
+                    let botResponse = "I'm sorry, I don't quite understand. Could you please rephrase your question or ask about our courses, admissions, or timings?";
+                    let matched = false;
+
+                    for (const intent of intents) {
+                        for (const pattern of intent.patterns) {
+                            if (pattern.test(userMessage)) {
+                                botResponse = getRandomResponse(intent.responses);
+                                matched = true;
+                                break; // Stop checking patterns for this intent
+                            }
+                        }
+                        if (matched) {
+                            break; // Stop checking intents
+                        }
+                    }
+                    appendMessage(botResponse, 'bot');
+                }
+
+                // Remaining chatbot UI logic (same as before)
+                chatbotBubble.addEventListener('click', () => {
+                    chatbotWindow.style.display = chatbotWindow.style.display === 'flex' ? 'none' : 'flex';
+                    if (chatbotWindow.style.display === 'flex') {
+                        chatbotInput.focus();
+                        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                    }
+                });
+
+                chatbotCloseBtn.addEventListener('click', () => {
+                    chatbotWindow.style.display = 'none';
+                });
+
+                chatbotSendBtn.addEventListener('click', sendMessage);
+                chatbotInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+
+                function sendMessage() {
+                    const userMessage = chatbotInput.value.trim();
+                    if (userMessage === '') return;
+
+                    appendMessage(userMessage, 'user');
+                    chatbotInput.value = '';
+
+                    setTimeout(() => {
+                        generateBotResponse(userMessage);
+                    }, 500);
+                }
+
+                function appendMessage(text, sender) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.classList.add('chat-message', sender);
+                    messageDiv.textContent = text;
+                    chatbotMessages.appendChild(messageDiv);
+                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                }
+                // CHATBOT LOGIC END
+            });
+        } else {
+            console.error("jQuery is not defined. Please ensure jQuery is loaded before this script.");
+        }
+    </script>
+}

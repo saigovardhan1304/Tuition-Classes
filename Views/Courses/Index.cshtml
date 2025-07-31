@@ -1,0 +1,535 @@
+@* ~/Views/Courses/Index.cshtml (or wherever you named your Courses page) *@
+@{
+    ViewData["Title"] = "Courses Offered - Saigovardhan's Tuition Classes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .course-header {
+        background: linear-gradient(rgba(0, 82, 147, 0.8), rgba(0, 82, 147, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 80px 0;
+        margin-bottom: 40px;
+    }
+
+    .course-card {
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-card .card-header {
+            background-color: #005293;
+            color: white;
+            font-weight: 600;
+            padding: 15px;
+        }
+
+    .course-icon {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        color: #005293;
+    }
+
+    .subject-badge {
+        margin-right: 5px;
+        margin-bottom: 5px;
+        background-color: #e9f5ff;
+        color: #005293;
+    }
+
+    .tabs-nav {
+        border-bottom: 2px solid #dee2e6;
+        margin-bottom: 30px;
+    }
+
+        .tabs-nav .nav-link {
+            color: #495057;
+            font-weight: 500;
+            border: none;
+            padding: 10px 20px;
+        }
+
+            .tabs-nav .nav-link.active {
+                color: #005293;
+                background-color: transparent;
+                border-bottom: 3px solid #005293;
+            }
+</style>
+<div class="course-header text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Courses Offered</h1>
+        <p class="lead mb-4">Comprehensive academic programs tailored for each class group</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="#school" class="btn btn-light btn-lg px-4">
+                <i class="fas fa-school me-2"></i> School
+            </a>
+            <a href="#competitive" class="btn btn-outline-light btn-lg px-4">
+                <i class="fas fa-trophy me-2"></i> Competitive
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <ul class="nav nav-tabs tabs-nav" id="coursesTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="middle-tab" data-bs-toggle="tab" data-bs-target="#middle" type="button" role="tab" aria-controls="middle" aria-selected="true">Middle School (6-8)</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="secondary-tab" data-bs-toggle="tab" data-bs-target="#secondary" type="button" role="tab" aria-controls="secondary" aria-selected="false">Secondary (9-10)</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="senior-tab" data-bs-toggle="tab" data-bs-target="#senior" type="button" role="tab" aria-controls="senior" aria-selected="false">Senior Secondary (11-12)</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="competitive-tab" data-bs-toggle="tab" data-bs-target="#competitive" type="button" role="tab" aria-controls="competitive" aria-selected="false">Competitive Exams</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="coursesTabContent">
+        <div class="tab-pane fade show active" id="middle" role="tabpanel" aria-labelledby="middle-tab">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card course-card h-100">
+                        <div class="card-header">
+                            Class 6 Comprehensive Program
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-graduation-cap course-icon"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">Foundation Building Course</h5>
+                            <p class="card-text">Strong foundation in core subjects with interactive learning methods.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Mathematics</span>
+                                    <span class="badge subject-badge">Science</span>
+                                    <span class="badge subject-badge">English</span>
+                                    <span class="badge subject-badge">Social Studies</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Features:</span>
+                                <ul class="mt-2">
+                                    <li>Conceptual clarity through activities</li>
+                                    <li>Regular assessments</li>
+                                    <li>Personalized attention</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card course-card h-100">
+                        <div class="card-header">
+                            Classes 7-8 Accelerated Program
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-rocket course-icon"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">Advanced Learning Track</h5>
+                            <p class="card-text">Prepares students for higher classes with advanced curriculum coverage.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Mathematics</span>
+                                    <span class="badge subject-badge">Physics</span>
+                                    <span class="badge subject-badge">Chemistry</span>
+                                    <span class="badge subject-badge">Biology</span>
+                                    <span class="badge subject-badge">English</span>
+                                    <span class="badge subject-badge">Social Science</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Features:</span>
+                                <ul class="mt-2">
+                                    <li>Olympiad preparation</li>
+                                    <li>Project-based learning</li>
+                                    <li>Skill development workshops</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="secondary" role="tabpanel" aria-labelledby="secondary-tab">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card course-card h-100">
+                        <div class="card-header">
+                            Class 9 Foundation Course
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-layer-group course-icon"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">CBSE/ICSE Complete Syllabus</h5>
+                            <p class="card-text">Comprehensive coverage of all subjects with board exam orientation.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Mathematics</span>
+                                    <span class="badge subject-badge">Science</span>
+                                    <span class="badge subject-badge">English</span>
+                                    <span class="badge subject-badge">Social Science</span>
+                                    <span class="badge subject-badge">Hindi</span>
+                                    <span class="badge subject-badge">Computer Science</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Features:</span>
+                                <ul class="mt-2">
+                                    <li>Chapter-wise tests</li>
+                                    <li>Doubt clearing sessions</li>
+                                    <li>Practical lab support</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card course-card h-100">
+                        <div class="card-header">
+                            Class 10 Board Special
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-medal course-icon"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">Board Exam Excellence Program</h5>
+                            <p class="card-text">Focused preparation for CBSE/ICSE/State Board examinations.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Mathematics</span>
+                                    <span class="badge subject-badge">Science</span>
+                                    <span class="badge subject-badge">English</span>
+                                    <span class="badge subject-badge">Social Science</span>
+                                    <span class="badge subject-badge">Hindi/Telugu</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Features:</span>
+                                <ul class="mt-2">
+                                    <li>Previous year paper analysis</li>
+                                    <li>Sample paper solving</li>
+                                    <li>Time management training</li>
+                                    <li>Special revision batches</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="senior" role="tabpanel" aria-labelledby="senior-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card course-card h-100">
+                        <div class="card-header bg-success">
+                            Science Stream
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-atom course-icon" style="color: #198754;"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">PCM/PCB Programs</h5>
+                            <p class="card-text">Comprehensive coaching for Science stream students.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Core Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Physics</span>
+                                    <span class="badge subject-badge">Chemistry</span>
+                                    <span class="badge subject-badge">Mathematics</span>
+                                    <span class="badge subject-badge">Biology</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Electives:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Computer Science</span>
+                                    <span class="badge subject-badge">Physical Education</span>
+                                    <span class="badge subject-badge">English</span>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-success">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card course-card h-100">
+                        <div class="card-header bg-info text-dark">
+                            Commerce Stream
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-chart-line course-icon" style="color: #0dcaf0;"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">Commerce Excellence Program</h5>
+                            <p class="card-text">Specialized coaching for Commerce students.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Core Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Accountancy</span>
+                                    <span class="badge subject-badge">Business Studies</span>
+                                    <span class="badge subject-badge">Economics</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Electives:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Mathematics</span>
+                                    <span class="badge subject-badge">Computer Science</span>
+                                    <span class="badge subject-badge">English</span>
+                                </div>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-info text-dark">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card course-card h-100">
+                        <div class="card-header bg-warning text-dark">
+                            Board + Competitive
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-trophy course-icon" style="color: #ffc107;"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">Integrated Program</h5>
+                            <p class="card-text">Board preparation along with competitive exam coaching.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Programs:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">JEE/NEET Foundation</span>
+                                    <span class="badge subject-badge">CA Foundation</span>
+                                    <span class="badge subject-badge">CLAT Preparation</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Features:</span>
+                                <ul class="mt-2">
+                                    <li>Dual preparation strategy</li>
+                                    <li>Special weekend batches</li>
+                                    <li>Test series for both</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-warning text-dark">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="competitive" role="tabpanel" aria-labelledby="competitive-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card course-card h-100">
+                        <div class="card-header bg-danger">
+                            Engineering
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-cogs course-icon" style="color: #dc3545;"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">JEE Preparation</h5>
+                            <p class="card-text">Comprehensive coaching for JEE Main & Advanced.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Physics</span>
+                                    <span class="badge subject-badge">Chemistry</span>
+                                    <span class="badge subject-badge">Mathematics</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Features:</span>
+                                <ul class="mt-2">
+                                    <li>Daily practice problems</li>
+                                    <li>Weekly test series</li>
+                                    <li>Doubt clearing sessions</li>
+                                    <li>Mock interviews</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-danger">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card course-card h-100">
+                        <div class="card-header bg-purple text-white" style="background-color: #6f42c1;">
+                            Medical
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-briefcase-medical course-icon" style="color: #6f42c1;"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">NEET Preparation</h5>
+                            <p class="card-text">Specialized program for NEET aspirants.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Physics</span>
+                                    <span class="badge subject-badge">Chemistry</span>
+                                    <span class="badge subject-badge">Biology</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Features:</span>
+                                <ul class="mt-2">
+                                    <li>NCERT focused teaching</li>
+                                    <li>Diagram-based learning</li>
+                                    <li>Regular mock tests</li>
+                                    <li>Previous year paper analysis</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-purple text-white" style="background-color: #6f42c1;">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card course-card h-100">
+                        <div class="card-header bg-dark">
+                            Commerce Professionals
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-file-invoice-dollar course-icon" style="color: #212529;"></i>
+                            </div>
+                            <h5 class="card-title text-center mb-4">CA Foundation</h5>
+                            <p class="card-text">Complete coaching for CA Foundation exams.</p>
+                            <div class="mb-3">
+                                <span class="fw-bold">Subjects:</span>
+                                <div class="mt-2">
+                                    <span class="badge subject-badge">Principles of Accounting</span>
+                                    <span class="badge subject-badge">Business Laws</span>
+                                    <span class="badge subject-badge">Business Maths</span>
+                                    <span class="badge subject-badge">Economics</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="fw-bold">Features:</span>
+                                <ul class="mt-2">
+                                    <li>Conceptual clarity</li>
+                                    <li>Case study approach</li>
+                                    <li>Revision classes</li>
+                                    <li>Mock test series</li>
+                                </ul>
+                            </div>
+                            <div class="text-center mt-4">
+                                <button class="btn btn-dark">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="d-flex align-items-start">
+                    <div class="me-3">
+                        <i class="fas fa-calendar-alt text-primary fs-3"></i>
+                    </div>
+                    <div>
+                        <h5>Batch Timings</h5>
+                        <p class="mb-0">
+                            Morning: 7-9 AM<br>
+                            Afternoon: 4-6 PM<br>
+                            Evening: 6-8 PM
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex align-items-start">
+                    <div class="me-3">
+                        <i class="fas fa-chalkboard-teacher text-primary fs-3"></i>
+                    </div>
+                    <div>
+                        <h5>Teaching Methodology</h5>
+                        <p class="mb-0">
+                            Conceptual learning<br>
+                            Regular assessments<br>
+                            Doubt clearing sessions
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-flex align-items-start">
+                    <div class="me-3">
+                        <i class="fas fa-book text-primary fs-3"></i>
+                    </div>
+                    <div>
+                        <h5>Study Material</h5>
+                        <p class="mb-0">
+                            Comprehensive notes<br>
+                            Practice worksheets<br>
+                            Previous year papers
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-primary text-white py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Join Our Classes?</h2>
+        <p class="lead mb-4">Limited seats available in each batch. Enroll now to secure your spot.</p>
+        <button class="btn btn-light btn-lg px-4 me-3">Enroll Now</button>
+        <a class="btn btn-outline-light btn-lg px-4" asp-controller="Contact" asp-action="Index">Contact Us</a>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Any specific scripts for this page can go here if needed.
+        // The Bootstrap JS bundle is loaded here for this specific page,
+        // although it's also loaded in _Layout.cshtml. You can remove one if preferred.
+    </script>
+}
